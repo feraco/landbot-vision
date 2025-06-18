@@ -183,7 +183,7 @@ class UIControlPanel:
         
     def setup_ui(self):
         """Setup the main UI layout"""
-        # Create main frames
+        # Create main frames using pack only
         self.control_frame = ttk.Frame(self.root)
         self.control_frame.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
         
@@ -222,15 +222,24 @@ class UIControlPanel:
                                  orient=tk.HORIZONTAL, command=self.update_movement)
         angular_scale.pack(fill=tk.X, pady=2)
         
-        # Direction buttons
+        # Direction buttons - using pack instead of grid
         direction_frame = ttk.Frame(movement_frame)
         direction_frame.pack(fill=tk.X, pady=5)
         
-        ttk.Button(direction_frame, text="↑", command=lambda: self.move_direction("forward")).grid(row=0, column=1)
-        ttk.Button(direction_frame, text="←", command=lambda: self.move_direction("left")).grid(row=1, column=0)
-        ttk.Button(direction_frame, text="STOP", command=lambda: self.move_direction("stop")).grid(row=1, column=1)
-        ttk.Button(direction_frame, text="→", command=lambda: self.move_direction("right")).grid(row=1, column=2)
-        ttk.Button(direction_frame, text="↓", command=lambda: self.move_direction("backward")).grid(row=2, column=1)
+        # Create direction buttons in rows
+        top_row = ttk.Frame(direction_frame)
+        top_row.pack()
+        ttk.Button(top_row, text="↑", command=lambda: self.move_direction("forward")).pack()
+        
+        middle_row = ttk.Frame(direction_frame)
+        middle_row.pack()
+        ttk.Button(middle_row, text="←", command=lambda: self.move_direction("left")).pack(side=tk.LEFT, padx=2)
+        ttk.Button(middle_row, text="STOP", command=lambda: self.move_direction("stop")).pack(side=tk.LEFT, padx=2)
+        ttk.Button(middle_row, text="→", command=lambda: self.move_direction("right")).pack(side=tk.LEFT, padx=2)
+        
+        bottom_row = ttk.Frame(direction_frame)
+        bottom_row.pack()
+        ttk.Button(bottom_row, text="↓", command=lambda: self.move_direction("backward")).pack()
         
         # Auto mode
         ttk.Checkbutton(movement_frame, text="Auto Mode", variable=self.auto_mode).pack(anchor=tk.W, pady=5)
@@ -270,31 +279,34 @@ class UIControlPanel:
         detection_frame.pack(fill=tk.X, pady=5)
         
         # Color detection buttons
+        ttk.Label(detection_frame, text="Colors:").pack(anchor=tk.W)
         color_frame = ttk.Frame(detection_frame)
         color_frame.pack(fill=tk.X, pady=2)
-        ttk.Label(color_frame, text="Colors:").pack(anchor=tk.W)
+        
         colors = ['red', 'green', 'blue', 'yellow']
-        for i, color in enumerate(colors):
+        for color in colors:
             ttk.Button(color_frame, text=color.capitalize(), 
-                      command=lambda c=color: self.manual_detect('color', c)).grid(row=1, column=i, padx=2)
+                      command=lambda c=color: self.manual_detect('color', c)).pack(side=tk.LEFT, padx=2)
         
         # Gesture detection buttons
+        ttk.Label(detection_frame, text="Gestures:").pack(anchor=tk.W)
         gesture_frame = ttk.Frame(detection_frame)
         gesture_frame.pack(fill=tk.X, pady=2)
-        ttk.Label(gesture_frame, text="Gestures:").pack(anchor=tk.W)
+        
         gestures = ['fist', 'open_hand', 'peace', 'thumbs_up']
-        for i, gesture in enumerate(gestures):
+        for gesture in gestures:
             ttk.Button(gesture_frame, text=gesture.replace('_', ' ').title(), 
-                      command=lambda g=gesture: self.manual_detect('gesture', g)).grid(row=1, column=i, padx=2)
+                      command=lambda g=gesture: self.manual_detect('gesture', g)).pack(side=tk.LEFT, padx=2)
         
         # Sign detection buttons
+        ttk.Label(detection_frame, text="Signs:").pack(anchor=tk.W)
         sign_frame = ttk.Frame(detection_frame)
         sign_frame.pack(fill=tk.X, pady=2)
-        ttk.Label(sign_frame, text="Signs:").pack(anchor=tk.W)
+        
         signs = ['stop', 'go', 'right', 'left']
-        for i, sign in enumerate(signs):
+        for sign in signs:
             ttk.Button(sign_frame, text=sign.capitalize(), 
-                      command=lambda s=sign: self.manual_detect('sign', s)).grid(row=1, column=i, padx=2)
+                      command=lambda s=sign: self.manual_detect('sign', s)).pack(side=tk.LEFT, padx=2)
         
     def setup_display_panel(self):
         """Setup the display panel with camera feed and statistics"""
@@ -362,13 +374,17 @@ class UIControlPanel:
                     image_resized = cv2.resize(image_rgb, (640, 480))
                     
                     # Convert to PIL Image and then to PhotoImage
-                    from PIL import Image as PILImage, ImageTk
-                    pil_image = PILImage.fromarray(image_resized)
-                    photo = ImageTk.PhotoImage(pil_image)
-                    
-                    # Update label
-                    self.camera_label.configure(image=photo)
-                    self.camera_label.image = photo  # Keep a reference
+                    try:
+                        from PIL import Image as PILImage, ImageTk
+                        pil_image = PILImage.fromarray(image_resized)
+                        photo = ImageTk.PhotoImage(pil_image)
+                        
+                        # Update label
+                        self.camera_label.configure(image=photo)
+                        self.camera_label.image = photo  # Keep a reference
+                    except ImportError:
+                        # Fallback if PIL is not available
+                        print("PIL not available - install with: pip install pillow")
                     
                 # Update statistics
                 self.update_statistics_display()
