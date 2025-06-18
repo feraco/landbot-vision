@@ -33,9 +33,7 @@ setup(
             'self_driving_demo = example_demos.self_driving_demo:main',
             'lane_following_demo = example_demos.lane_following_demo:main',
             'traffic_sign_demo = example_demos.traffic_sign_demo:main',
-            'ui_control_panel = example_demos.ui_control_panel:main',
-            'advanced_detection_ui = example_demos.advanced_detection_ui:main',
-            'simple_control_ui = example_demos.simple_control_ui:main',
+            'demo_launcher = example_demos.demo_launcher:main',
         ],
     },
 )
