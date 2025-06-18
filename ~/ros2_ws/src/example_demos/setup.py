@@ -30,6 +30,9 @@ setup(
             'body_track_demo = example_demos.body_track_demo:main',
             'color_sorting_demo = example_demos.color_sorting_demo:main',
             'fall_detection_demo = example_demos.fall_detection_demo:main',
+            'self_driving_demo = example_demos.self_driving_demo:main',
+            'lane_following_demo = example_demos.lane_following_demo:main',
+            'traffic_sign_demo = example_demos.traffic_sign_demo:main',
         ],
     },
 )

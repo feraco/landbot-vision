@@ -48,6 +48,30 @@ Each demo provides:
 - Emergency alert system
 - Height ratio monitoring
 
+### 8. Self-Driving Demo (`self_driving_demo`) 🚗
+- **Comprehensive autonomous driving simulation**
+- Lane detection and following
+- Traffic sign recognition (stop, go, right, park, crosswalk)
+- Real-time driving statistics
+- Speed and steering control
+- Obstacle avoidance simulation
+
+### 9. Lane Following Demo (`lane_following_demo`) 🛣️
+- **Advanced lane detection and following**
+- PID-based control system
+- Multiple color space detection
+- Real-time control feedback
+- Lane confidence scoring
+- Detailed driving statistics
+
+### 10. Traffic Sign Recognition Demo (`traffic_sign_demo`) 🚦
+- **Comprehensive traffic sign detection**
+- 8 different sign types (stop, go, turn, yield, etc.)
+- Automatic vehicle response
+- Detection confidence and distance
+- Response time tracking
+- Sign detection statistics
+
 ## Installation
 
 1. Navigate to your ROS2 workspace:
@@ -71,66 +95,52 @@ source install/setup.bash
 
 Run any demo directly:
 ```bash
-# Body control demo
+# Original demos
 ros2 run example_demos body_control_demo
-
-# Color detection demo
 ros2 run example_demos color_detect_demo
-
-# Hand gesture demo
 ros2 run example_demos hand_gesture_demo
-
-# Hand tracking demo
 ros2 run example_demos hand_track_demo
-
-# Body tracking demo
 ros2 run example_demos body_track_demo
-
-# Color sorting demo
 ros2 run example_demos color_sorting_demo
-
-# Fall detection demo
 ros2 run example_demos fall_detection_demo
+
+# New self-driving demos
+ros2 run example_demos self_driving_demo
+ros2 run example_demos lane_following_demo
+ros2 run example_demos traffic_sign_demo
 ```
 
 ### Using Launch Files
 
 Run individual demos with launch files:
 ```bash
-# Body control demo
+# Original demos
 ros2 launch example_demos body_control_demo.launch.py
-
-# Color detection demo
 ros2 launch example_demos color_detect_demo.launch.py
-
-# Hand gesture demo
 ros2 launch example_demos hand_gesture_demo.launch.py
-
-# Hand tracking demo
 ros2 launch example_demos hand_track_demo.launch.py
-
-# Body tracking demo
 ros2 launch example_demos body_track_demo.launch.py
-
-# Color sorting demo
 ros2 launch example_demos color_sorting_demo.launch.py
-
-# Fall detection demo
 ros2 launch example_demos fall_detection_demo.launch.py
+
+# New self-driving demos
+ros2 launch example_demos self_driving_demo.launch.py
+ros2 launch example_demos lane_following_demo.launch.py
+ros2 launch example_demos traffic_sign_demo.launch.py
 ```
 
 ### Running Multiple Demos
 
 Use the all_demos launch file to run specific combinations:
 ```bash
-# Run body control and color detection demos
-ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=true
+# Run self-driving demos
+ros2 launch example_demos all_demos.launch.py self_driving:=true lane_following:=true traffic_sign:=true
 
-# Run hand tracking and gesture demos
-ros2 launch example_demos all_demos.launch.py hand_track:=true hand_gesture:=true
+# Run original demos
+ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=true hand_gesture:=true
 
 # Run all demos
-ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=true hand_gesture:=true hand_track:=true body_track:=true color_sorting:=true fall_detection:=true
+ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=true hand_gesture:=true hand_track:=true body_track:=true color_sorting:=true fall_detection:=true self_driving:=true lane_following:=true traffic_sign:=true
 ```
 
 ## Camera Topic Detection
@@ -168,6 +178,46 @@ If no camera topic is found, the demo will display a waiting message and list av
 #### Fall Detection Demo
 - **R**: Reset fall count and clear alerts
 
+#### Self-Driving Demo 🚗
+- **SPACE**: Enable/Disable autonomous driving
+- **R**: Reset driving statistics
+
+#### Lane Following Demo 🛣️
+- **SPACE**: Enable/Disable lane following
+- **R**: Reset statistics
+- **+/-**: Adjust vehicle speed
+
+#### Traffic Sign Demo 🚦
+- **SPACE**: Enable/Disable sign recognition
+- **R**: Reset detection statistics
+- **+/-**: Adjust vehicle speed
+
+## Self-Driving Features
+
+### Lane Detection
+- **Multi-color space analysis** (HSV, LAB)
+- **ROI-based detection** for improved performance
+- **Lane center and angle calculation**
+- **Confidence scoring** based on detection quality
+
+### Traffic Sign Recognition
+- **8 different sign types**: stop, go, right, left, park, crosswalk, speed limit, yield
+- **Shape-based detection**: circles, octagons, triangles, rectangles
+- **Distance estimation** for appropriate response timing
+- **Priority-based action selection**
+
+### Vehicle Control
+- **PID-based lane following** with tunable parameters
+- **Automatic speed adjustment** based on traffic conditions
+- **Smooth steering control** with angle limiting
+- **Emergency stop** for critical situations
+
+### Statistics and Monitoring
+- **Real-time performance metrics**
+- **Detection confidence tracking**
+- **Response time measurement**
+- **Driving behavior analysis**
+
 ## Dependencies
 
 - ROS2 Humble
@@ -184,6 +234,7 @@ If no camera topic is found, the demo will display a waiting message and list av
 - Camera simulation is included when no real camera is available
 - All processing is done locally without external dependencies
 - The demos are designed for educational and demonstration purposes
+- Self-driving demos include realistic physics simulation and safety features
 
 ## Troubleshooting
 
@@ -206,3 +257,8 @@ If the demo runs slowly:
 1. Close other applications using the camera
 2. Reduce image resolution if possible
 3. Check system resources (CPU/memory)
+
+### Self-Driving Demo Issues
+1. **Lane not detected**: Ensure good lighting and clear lane markings
+2. **Erratic steering**: Adjust PID parameters in the code
+3. **Signs not recognized**: Check sign visibility and contrast

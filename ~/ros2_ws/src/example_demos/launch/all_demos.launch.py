@@ -15,6 +15,9 @@ def generate_launch_description():
     body_track_arg = DeclareLaunchArgument('body_track', default_value='false')
     color_sorting_arg = DeclareLaunchArgument('color_sorting', default_value='false')
     fall_detection_arg = DeclareLaunchArgument('fall_detection', default_value='false')
+    self_driving_arg = DeclareLaunchArgument('self_driving', default_value='false')
+    lane_following_arg = DeclareLaunchArgument('lane_following', default_value='false')
+    traffic_sign_arg = DeclareLaunchArgument('traffic_sign', default_value='false')
 
     return LaunchDescription([
         body_control_arg,
@@ -24,6 +27,9 @@ def generate_launch_description():
         body_track_arg,
         color_sorting_arg,
         fall_detection_arg,
+        self_driving_arg,
+        lane_following_arg,
+        traffic_sign_arg,
 
         # Body Control Demo
         Node(
@@ -86,5 +92,32 @@ def generate_launch_description():
             name='fall_detection_demo',
             output='screen',
             condition=IfCondition(LaunchConfiguration('fall_detection')),
+        ),
+
+        # Self-Driving Demo
+        Node(
+            package='example_demos',
+            executable='self_driving_demo',
+            name='self_driving_demo',
+            output='screen',
+            condition=IfCondition(LaunchConfiguration('self_driving')),
+        ),
+
+        # Lane Following Demo
+        Node(
+            package='example_demos',
+            executable='lane_following_demo',
+            name='lane_following_demo',
+            output='screen',
+            condition=IfCondition(LaunchConfiguration('lane_following')),
+        ),
+
+        # Traffic Sign Recognition Demo
+        Node(
+            package='example_demos',
+            executable='traffic_sign_demo',
+            name='traffic_sign_demo',
+            output='screen',
+            condition=IfCondition(LaunchConfiguration('traffic_sign')),
         ),
     ])
