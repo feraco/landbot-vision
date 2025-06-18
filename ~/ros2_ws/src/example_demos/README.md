@@ -72,6 +72,24 @@ Each demo provides:
 - Response time tracking
 - Sign detection statistics
 
+### 11. UI Control Panel (`ui_control_panel`) 🎛️
+- **Comprehensive Python UI for robot control**
+- Real-time speed and direction control
+- Object labeling and annotation system
+- Data collection for colors, gestures, poses, signs, faces
+- Export capabilities (JSON, CSV, images)
+- Live statistics and analytics
+- Manual and automatic detection modes
+
+### 12. Advanced Detection UI (`advanced_detection_ui`) 🔬
+- **Professional-grade detection interface**
+- Multi-tab interface for different functions
+- Advanced threshold controls
+- Real-time data visualization
+- Comprehensive export and reporting
+- Camera settings and configuration
+- Preset movement patterns
+
 ## Installation
 
 1. Navigate to your ROS2 workspace:
@@ -108,6 +126,10 @@ ros2 run example_demos fall_detection_demo
 ros2 run example_demos self_driving_demo
 ros2 run example_demos lane_following_demo
 ros2 run example_demos traffic_sign_demo
+
+# UI Control Panels
+ros2 run example_demos ui_control_panel
+ros2 run example_demos advanced_detection_ui
 ```
 
 ### Using Launch Files
@@ -127,6 +149,10 @@ ros2 launch example_demos fall_detection_demo.launch.py
 ros2 launch example_demos self_driving_demo.launch.py
 ros2 launch example_demos lane_following_demo.launch.py
 ros2 launch example_demos traffic_sign_demo.launch.py
+
+# UI Control Panels
+ros2 launch example_demos ui_control_panel.launch.py
+ros2 launch example_demos advanced_detection_ui.launch.py
 ```
 
 ### Running Multiple Demos
@@ -142,6 +168,40 @@ ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=t
 # Run all demos
 ros2 launch example_demos all_demos.launch.py body_control:=true color_detect:=true hand_gesture:=true hand_track:=true body_track:=true color_sorting:=true fall_detection:=true self_driving:=true lane_following:=true traffic_sign:=true
 ```
+
+## UI Control Panel Features
+
+### 🎛️ Comprehensive Robot Control
+- **Real-time speed control** with sliders and direction pad
+- **Movement modes**: Manual, Follow Object, Patrol, Auto Navigate
+- **Preset movement patterns**: Circle, Figure 8, Square, Random Walk
+- **Emergency stop** functionality
+
+### 🏷️ Advanced Object Labeling
+- **Manual labeling** with click-to-add functionality
+- **Automatic labeling** based on detections
+- **Label types**: Person, Vehicle, Sign, Object, Custom
+- **Confidence scoring** and timestamp tracking
+
+### 📊 Comprehensive Data Collection
+- **Real-time detection counting** for all object types
+- **Session statistics** with duration and detection rates
+- **Export capabilities**: JSON, CSV, Images, HTML reports
+- **Data visualization** with charts and graphs
+
+### 🎯 Multi-Category Detection
+- **Colors**: Red, Green, Blue, Yellow, Orange, Purple
+- **Gestures**: Fist, Open Hand, Peace, Thumbs Up, Pointing, OK
+- **Poses**: Standing, Sitting, Walking, Waving, Hands Up
+- **Signs**: Stop, Go, Right, Left, Park, Crosswalk, Yield, Speed Limit
+- **Faces**: Total count, unique faces, emotion detection
+- **Objects**: Person, Car, Bicycle, Animals, Common items
+
+### ⚙️ Advanced Settings
+- **Detection thresholds** for each category
+- **Camera topic configuration**
+- **Auto-save and debug modes**
+- **System performance monitoring**
 
 ## Camera Topic Detection
 
@@ -192,6 +252,12 @@ If no camera topic is found, the demo will display a waiting message and list av
 - **R**: Reset detection statistics
 - **+/-**: Adjust vehicle speed
 
+#### UI Control Panel 🎛️
+- **Mouse clicks**: Add labels to image
+- **Sliders**: Control robot speed and direction
+- **Buttons**: Quick detection and movement commands
+- **Checkboxes**: Enable/disable various features
+
 ## Self-Driving Features
 
 ### Lane Detection
@@ -218,11 +284,27 @@ If no camera topic is found, the demo will display a waiting message and list av
 - **Response time measurement**
 - **Driving behavior analysis**
 
+## Data Collection and Export
+
+### Supported Data Types
+- **Detection counts** by category and type
+- **Confidence scores** and timestamps
+- **Label annotations** with positions
+- **Session statistics** and performance metrics
+
+### Export Formats
+- **JSON**: Complete data structure with metadata
+- **CSV**: Tabular data for analysis
+- **Images**: Labeled screenshots and annotations
+- **HTML Reports**: Comprehensive session summaries
+
 ## Dependencies
 
 - ROS2 Humble
 - OpenCV (cv2)
 - NumPy
+- Tkinter (for UI panels)
+- PIL/Pillow (for image processing)
 - rclpy
 - sensor_msgs
 - geometry_msgs
@@ -235,6 +317,7 @@ If no camera topic is found, the demo will display a waiting message and list av
 - All processing is done locally without external dependencies
 - The demos are designed for educational and demonstration purposes
 - Self-driving demos include realistic physics simulation and safety features
+- UI control panels provide professional-grade interfaces for research and development
 
 ## Troubleshooting
 
@@ -258,7 +341,17 @@ If the demo runs slowly:
 2. Reduce image resolution if possible
 3. Check system resources (CPU/memory)
 
+### UI Panel Issues
+1. **Tkinter not found**: Install python3-tk
+2. **PIL errors**: Install pillow package
+3. **Slow UI updates**: Reduce detection frequency in settings
+
 ### Self-Driving Demo Issues
 1. **Lane not detected**: Ensure good lighting and clear lane markings
 2. **Erratic steering**: Adjust PID parameters in the code
 3. **Signs not recognized**: Check sign visibility and contrast
+
+### Data Export Problems
+1. **Permission errors**: Check write permissions in target directory
+2. **Large file sizes**: Reduce image quality or detection frequency
+3. **Missing data**: Ensure recording is enabled before starting detection
